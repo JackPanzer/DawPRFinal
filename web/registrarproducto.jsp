@@ -1,6 +1,6 @@
 <%-- 
-    Document   : plantillaJSP
-    Created on : 16-Jan-2014, 13:58:20
+    Document   : registrarproducto
+    Created on : 16-Jan-2014, 16:59:41
     Author     : Juan Manuel Pedraza García <jackpanzer@github.com>
 --%>
 

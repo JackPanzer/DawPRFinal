@@ -105,18 +105,28 @@ public class SrvUsuario extends HttpServlet {
                     String formedpass = sb.toString();
 
                     if (user.getPass().equalsIgnoreCase(formedpass)) {
+                        //Los datos de usuario son correctos: Buen loggin, inicia la sesión.
                         sesion = request.getSession(true);
                         sesion.setAttribute("usuarioLogged", "true");
                         sesion.setAttribute("userID", user.getId().toString());
                         sesion.setAttribute("nick", user.getNick());
 
                     }
+                    else
+                    {
+                        vista = "/error.jsp";
+                        request.setAttribute("errorMessage", "Usuario no existente o contraseña equivocada");
+                    }
+                    
 
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(SrvUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoResultException e) {
+                    //Mal loggin
+                    vista = "/error.jsp";
+                    request.setAttribute("errorMessage", "Usuario no existente o contraseña equivocada");
                 }
-
-                vista = "/loggedindex.jsp";
+                
                 rd = request.getRequestDispatcher(vista);
                 rd.forward(request, response);
                 break;

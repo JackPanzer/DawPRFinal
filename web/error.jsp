@@ -1,6 +1,6 @@
 <%-- 
-    Document   : plantillaJSP
-    Created on : 16-Jan-2014, 13:58:20
+    Document   : error
+    Created on : 16-Jan-2014, 12:53:06
     Author     : Juan Manuel Pedraza García <jackpanzer@github.com>
 --%>
 
@@ -22,12 +22,13 @@
     <body>
         <header>
             <h1>Once More Time!</h1>
+            <br/>
         </header>
         <nav>
             <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>
         </nav>
         <article>
-            
+            <h5>Error: ${errorMessage}</h5>
         </article>
         <aside>
             <%@include file="WEB-INF/jspf/panelControl.jspf" %>
@@ -40,4 +41,3 @@
         <script src="js/index.js" type="text/javascript"></script>
     </body>
 </html>
-

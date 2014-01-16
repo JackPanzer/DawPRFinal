@@ -66,7 +66,7 @@ public class SrvArticulo extends HttpServlet {
                     artRecientes = query.getResultList();
                     int recienteActual = 0;
                     
-                    if (artRecientes.isEmpty()) {
+                    if (!artRecientes.isEmpty()) {
                         out.print("<table class=\"striped\">");
                         out.print("<tr>");
                         out.print("<th>Nombre</th>");
