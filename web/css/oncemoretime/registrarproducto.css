@@ -1,0 +1,58 @@
+/* 
+    Document   : registrarusuario
+    Created on : 16-Jan-2014, 17:56:37
+    Author     : Juan Manuel Pedraza García <jackpanzer@github.com>
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+form {
+    
+}
+
+form br {
+    height: 5px;
+}
+
+div#datos {
+    width: 30%;
+    float: left;
+    margin-left: 1px;
+}
+
+div#sobreti {
+    width: 30%;
+    float: right;
+    margin-right: 1px;
+}
+
+#submit {
+    clear: both;
+    float: left;
+}
+
+#provincia {
+    
+}
+
+input {
+    width: 30%;
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 50%;
+    height: 210px;
+    resize: none;
+    margin-bottom: 5px;
+}
+
+#combocategorias {
+    float: left;
+    clear: left;
+    margin-right: 2px;
+}

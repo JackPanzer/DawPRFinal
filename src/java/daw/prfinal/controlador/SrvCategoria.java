@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author jackpanzer
  */
 public class SrvCategoria extends HttpServlet {
+
     @PersistenceContext(unitName = "OnceMoreTimePU")
     private EntityManager em;
     @Resource
@@ -42,33 +43,51 @@ public class SrvCategoria extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String accion;
         accion = request.getServletPath();
         String vista = "/index.jsp";
         HttpSession sesion;
-        
-        switch(accion){
+
+        switch (accion) {
             case "/SrvCategoria/ObtenerCategorias":
-                try
-                {
+                try {
                     List<Categoria> categorias;
                     TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
                     categorias = query.getResultList();
                     out.println("<ul class=\"icons\">");
-                    for(Categoria cat : categorias)
-                    {
+                    for (Categoria cat : categorias) {
                         String salida = "<li><i class=\"icon-star\"></i>"
-                                +"<a href=\"/OnceMoreTime/SrvArticulo/VerArticulos?cat="
-                                +cat.getId()
-                                +"\">"
-                                +cat.getNombre()+"</a></li>";
+                                + "<a href=\"/OnceMoreTime/SrvArticulo/VerArticulos?cat="
+                                + cat.getId()
+                                + "\">"
+                                + cat.getNombre() + "</a></li>";
                         out.println(salida);
                     }
-                }catch(Exception e){
+                    out.println("</ul>");
+                } catch (Exception e) {
+                    out.printf(e.getMessage());
+                }
+                break;
+            case "/SrvCategoria/ComboCategorias":
+                try {
+                    List<Categoria> categorias;
+                    TypedQuery<Categoria> query = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                    categorias = query.getResultList();
+                    out.print("<select id=\"combocategorias\" name=\"categoria\">");
+                    for (Categoria cat : categorias) {
+                        String salida = "<option value=\""
+                                + cat.getId()
+                                + "\">"
+                                + cat.getNombre()
+                                + "</option>";
+                        out.print(salida);
+                    }
+                    out.print("</select>");
+                } catch (Exception e) {
                     out.printf(e.getMessage());
                 }
                 break;

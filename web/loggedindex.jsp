@@ -49,39 +49,12 @@
             </div>
         </article>
         <aside>
-            <div id="panel_control">
-                <c:if test="${not empty sessionScope.usuarioLogged}">
-                    <div id="userlogged">
-                        <p>Bienvenido ${sessionScope.nick}</p>
-                        <ul>
-                            <li><a href="/OnceMoreTime/SrvUsuario/Logout">Cerrar sesión</a></li>
-                            <li><a href="/OnceMoreTime/SrvArticulo/VerArticulosPropios">Ver articulos publicados</a></li>
-                        </ul>
-                    </div>
-                </c:if>
-                <c:if test="${empty sessionScope.usuarioLogged}">
-                    <div id="usernotlogged">
-                        <p>Bienvenido invitado</p>
-                        <ul>
-                            <li><a href="/OnceMoreTime/SrvUsuario/Registrar">Registrar</a></li>
-                            <li>Acceder</li>
-                            <form action="/OnceMoreTime/SrvUsuario/Login" method="POST">
-                                <input type="text" id="usuario" name="usuario" value="" />
-                                <br/>
-                                <input type="password" id="passwd" name="passwd" value="" />
-                                <br/>
-                                <input type="submit" value="Entrar" onclick="validarLogin();">
-                            </form>
-                        </ul>
-                    </div>
-                </c:if>
-            </div>
+            <%@include file="WEB-INF/jspf/panelControl.jspf" %>
         </aside>
         <footer>
             Juan Manuel Pedraza - 
             Práctica final de Desarrollo de Aplicaciones Web - 
             Universidad de Huelva
         </footer>
-        <script src="../js/index.js" type="text/javascript"></script>
     </body>
 </html>

@@ -49,6 +49,8 @@
         <url-pattern>/SrvArticulo/VerArticulosCategoria</url-pattern>
         <url-pattern>/SrvArticulo/VerArticulosPropios</url-pattern>
         <url-pattern>/SrvArticulo/PublicarArticulo</url-pattern>
+        <url-pattern>/SrvArticulo/FormNuevoArticulo</url-pattern>
+        <url-pattern>/SrvArticulo/RegistrarArticulo</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SrvRol</servlet-name>
@@ -58,6 +60,7 @@
         <servlet-name>SrvCategoria</servlet-name>
         <url-pattern>/SrvCategoria</url-pattern>
         <url-pattern>/SrvCategoria/ObtenerCategorias</url-pattern>
+        <url-pattern>/SrvCategoria/ComboCategorias</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SrvVotacion</servlet-name>

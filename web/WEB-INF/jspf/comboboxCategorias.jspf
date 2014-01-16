@@ -1,0 +1,38 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div id="divcategorias">
+    
+</div>
+
+<script>
+        //Obteniendo las categorías
+        var xhrCategorias;
+        
+        if (window.XMLHttpRequest) {
+            xhrCategorias = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhrCategorias = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        function obtenerCombobox() {
+
+            var url = "/OnceMoreTime/SrvCategoria/ComboCategorias";
+            xhrCategorias.open("POST", url, true);
+            xhrCategorias.onreadystatechange = comboValido;
+
+            xhrCategorias.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhrCategorias.send();
+
+        }
+
+        function comboValido() {
+            if (xhrCategorias.readyState === 4) {
+                if (xhrCategorias.status === 200) {
+                    document.getElementById("divcategorias").innerHTML = xhrCategorias.responseText;
+                }
+            }
+
+        }
+        
+        obtenerCombobox();
+</script>

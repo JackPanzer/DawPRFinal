@@ -6,6 +6,7 @@ package daw.prfinal.controlador;
 
 import daw.prfinal.modelo.Articulo;
 import daw.prfinal.modelo.Categoria;
+import daw.prfinal.modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -79,14 +80,16 @@ public class SrvArticulo extends HttpServlet {
                                 && (artRecientes.get(recienteActual).getFechaPublicacion().getTime() > ayer)) {
                             out.print("<tr>");
                             Articulo actual = artRecientes.get(recienteActual);
-                            //recLink = "<";
-                            out.print("<td>" + actual.getNombre() + "</td>");
+                            recLink = "<td><a href=\"/OnceMoreTime/SrvArticulo/VerProducto?"
+                                    + "prod="
+                                    + actual.getId()
+                                    + "\">"
+                                    + actual.getNombre() 
+                                    + "</a></td>";
+                            out.print(recLink);
                             out.print("<td>" + actual.getPrecio() + "</td>");
                             out.print("<td>" + actual.getFechaPublicacion().toString() + "</td>");
-                            query = em.createNamedQuery("Categoria.findById", Categoria.class);
-                            query.setParameter("id", actual.getCategoriaId());
-                            Categoria cat = (Categoria) query.getSingleResult();
-                            out.print("<td>" + cat.getNombre() + "</td>");
+                            out.print("<td>" + actual.getCategoriaId().getNombre() + "</td>");
                             recienteActual++;
                             out.print("</tr>");
                         }
@@ -99,6 +102,46 @@ public class SrvArticulo extends HttpServlet {
                     //No hay artículos
                     out.println("No hay artículos recientes");
                 }
+                break;
+            case "/SrvArticulo/FormNuevoArticulo":
+                vista = "/registrarproducto.jsp";
+                rd = request.getRequestDispatcher(vista);
+                rd.forward(request, response);
+                break;
+            case "/SrvArticulo/RegistrarArticulo":
+                sesion = request.getSession();
+                Articulo nuevo = new Articulo();
+                
+                nuevo.setNombre(request.getParameter("nombre"));
+                nuevo.setDescripcion(request.getParameter("descripcion").toString());
+                nuevo.setImagenUrl(request.getParameter("imagenurl").toString());
+                nuevo.setPrecio(Double.parseDouble(request.getParameter("precio").toString()));
+                
+                Usuario vendedor;
+                query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                query.setParameter("id", Long.parseLong(sesion.getAttribute("userID").toString()));
+                vendedor = (Usuario) query.getSingleResult();
+                
+                nuevo.setVendedor(vendedor);
+                nuevo.setFechaPublicacion(new Date());
+                
+                Categoria categoria;
+                query = em.createNamedQuery("Categoria.findById", Categoria.class);
+                query.setParameter("id", Long.parseLong(request.getParameter("categoria").toString()));
+                categoria = (Categoria) query.getSingleResult();
+                
+                nuevo.setCategoriaId(categoria);
+                try{
+                    
+                    persist(nuevo);
+                    
+                } catch(Exception e) {
+                    
+                }
+                vista = "/loggedindex.jsp";
+                rd = request.getRequestDispatcher(vista);
+                rd.forward(request, response);
+                
                 break;
             default:
                 rd = request.getRequestDispatcher(vista);
