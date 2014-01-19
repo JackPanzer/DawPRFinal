@@ -108,7 +108,7 @@ public class SrvUsuario extends HttpServlet {
                         //Los datos de usuario son correctos: Buen loggin, inicia la sesión.
                         sesion = request.getSession(true);
                         sesion.setAttribute("usuarioLogged", "true");
-                        sesion.setAttribute("userID", user.getId().toString());
+                        sesion.setAttribute("userID", user.getId());
                         sesion.setAttribute("nick", user.getNick());
 
                     }
@@ -171,11 +171,15 @@ public class SrvUsuario extends HttpServlet {
                     }
 
                     persist(nuevo);
+                    
+                    vista = "/exito.jsp";
+                    request.setAttribute("successMessage", "Usuario creado con éxtio");
+                    
                 } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(SrvUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                    vista = "/error.jsp";
+                    request.setAttribute("errorMessage", ex.getMessage());
                 }
 
-                vista = "/loggedindex.jsp";
                 rd = request.getRequestDispatcher(vista);
                 rd.forward(request, response);
                 break;

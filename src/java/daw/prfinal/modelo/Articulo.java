@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -19,26 +23,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/******************************************
- * Fichero: Articulo.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class Articulo
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Entity
-@Table(name = "Articulo")
+@Table(name = "articulo")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Articulo.findAll", query = "SELECT a FROM Articulo a"),
@@ -81,15 +71,15 @@ public class Articulo implements Serializable {
     @Column(name = "fecha_compra")
     @Temporal(TemporalType.DATE)
     private Date fechaCompra;
+    @JoinColumn(name = "CategoriaId", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Categoria categoriaId;
     @JoinColumn(name = "Vendedor", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario vendedor;
     @JoinColumn(name = "Comprador", referencedColumnName = "id")
     @ManyToOne
     private Usuario comprador;
-    @JoinColumn(name = "CategoriaId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Categoria categoriaId;
 
     public Articulo() {
     }
@@ -162,6 +152,14 @@ public class Articulo implements Serializable {
         this.fechaCompra = fechaCompra;
     }
 
+    public Categoria getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Categoria categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     public Usuario getVendedor() {
         return vendedor;
     }
@@ -176,14 +174,6 @@ public class Articulo implements Serializable {
 
     public void setComprador(Usuario comprador) {
         this.comprador = comprador;
-    }
-
-    public Categoria getCategoriaId() {
-        return categoriaId;
-    }
-
-    public void setCategoriaId(Categoria categoriaId) {
-        this.categoriaId = categoriaId;
     }
 
     @Override
@@ -210,6 +200,5 @@ public class Articulo implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.Articulo[ id=" + id + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

@@ -21,40 +21,6 @@
 	<script type="text/javascript" src="../js/kickstart.js"></script>
     </head>
     <body>
-        <header>
-            <h1>Once More Time!</h1>
-            <br/>
-            <h2>Página principal</h2>
-        </header>
-        <nav>
-            <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>
-        </nav>
-        <article>
-            <div id="descripcion_web">
-                <p>
-                    Bienvenido usuario a la página de Once More Time, un portal de compra-venta 
-                    de artículos de segunda mano de todo tipo.
-                    <br/>
-                    Entre nuestros estándares, tratan de destacar la atención al usuario y 
-                    la seguridad a la hora de hacer las compras.
-                    <br/>
-                    Este sitio web utiliza cookies con el propósito de hacerle más fácil la
-                    utilización del sitio web y en ningún momento obtiene información sobre 
-                    usted. Para poder utilizar este sitio web debe tener habilitadas las 
-                    cookies en su navegador.
-                </p>
-            </div>
-            <div id="recientes">
-                No hay articulos recientes
-            </div>
-        </article>
-        <aside>
-            <%@include file="WEB-INF/jspf/panelControl.jspf" %>
-        </aside>
-        <footer>
-            Juan Manuel Pedraza - 
-            Práctica final de Desarrollo de Aplicaciones Web - 
-            Universidad de Huelva
-        </footer>
+        <%@include file="WEB-INF/jspf/indexcontrol.jspf" %>
     </body>
 </html>

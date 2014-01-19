@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -23,36 +27,22 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/******************************************
- * Fichero: Usuario.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class Usuario
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id"),
     @NamedQuery(name = "Usuario.findByNick", query = "SELECT u FROM Usuario u WHERE u.nick = :nick"),
     @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
+    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByDireccion", query = "SELECT u FROM Usuario u WHERE u.direccion = :direccion"),
     @NamedQuery(name = "Usuario.findByPass", query = "SELECT u FROM Usuario u WHERE u.pass = :pass"),
     @NamedQuery(name = "Usuario.findByCodpostal", query = "SELECT u FROM Usuario u WHERE u.codpostal = :codpostal"),
-    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
     @NamedQuery(name = "Usuario.findByTelefono", query = "SELECT u FROM Usuario u WHERE u.telefono = :telefono"),
     @NamedQuery(name = "Usuario.findByFacebook", query = "SELECT u FROM Usuario u WHERE u.facebook = :facebook"),
     @NamedQuery(name = "Usuario.findByTwitter", query = "SELECT u FROM Usuario u WHERE u.twitter = :twitter"),
@@ -75,6 +65,12 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "nombre")
     private String nombre;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
+    @Column(name = "email")
+    private String email;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 200)
@@ -89,12 +85,6 @@ public class Usuario implements Serializable {
     @NotNull
     @Column(name = "codpostal")
     private int codpostal;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
-    @Column(name = "email")
-    private String email;
     @Column(name = "telefono")
     private Integer telefono;
     @Size(max = 80)
@@ -109,15 +99,15 @@ public class Usuario implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "reputacion")
     private Float reputacion;
-    @JoinColumn(name = "rolId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Rol rolId;
+    @OneToMany(mappedBy = "usuarioId")
+    private List<Categoria> categoriaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "vendedor")
     private List<Articulo> articuloList;
     @OneToMany(mappedBy = "comprador")
     private List<Articulo> articuloList1;
-    @OneToMany(mappedBy = "usuarioId")
-    private List<Categoria> categoriaList;
+    @JoinColumn(name = "rolId", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Rol rolId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Votacion> votacionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario1")
@@ -130,14 +120,14 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public Usuario(Long id, String nick, String nombre, String direccion, String pass, int codpostal, String email) {
+    public Usuario(Long id, String nick, String nombre, String email, String direccion, String pass, int codpostal) {
         this.id = id;
         this.nick = nick;
         this.nombre = nombre;
+        this.email = email;
         this.direccion = direccion;
         this.pass = pass;
         this.codpostal = codpostal;
-        this.email = email;
     }
 
     public Long getId() {
@@ -164,6 +154,14 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getDireccion() {
         return direccion;
     }
@@ -186,14 +184,6 @@ public class Usuario implements Serializable {
 
     public void setCodpostal(int codpostal) {
         this.codpostal = codpostal;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Integer getTelefono() {
@@ -236,12 +226,13 @@ public class Usuario implements Serializable {
         this.reputacion = reputacion;
     }
 
-    public Rol getRolId() {
-        return rolId;
+    @XmlTransient
+    public List<Categoria> getCategoriaList() {
+        return categoriaList;
     }
 
-    public void setRolId(Rol rolId) {
-        this.rolId = rolId;
+    public void setCategoriaList(List<Categoria> categoriaList) {
+        this.categoriaList = categoriaList;
     }
 
     @XmlTransient
@@ -262,13 +253,12 @@ public class Usuario implements Serializable {
         this.articuloList1 = articuloList1;
     }
 
-    @XmlTransient
-    public List<Categoria> getCategoriaList() {
-        return categoriaList;
+    public Rol getRolId() {
+        return rolId;
     }
 
-    public void setCategoriaList(List<Categoria> categoriaList) {
-        this.categoriaList = categoriaList;
+    public void setRolId(Rol rolId) {
+        this.rolId = rolId;
     }
 
     @XmlTransient
@@ -313,6 +303,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.Usuario[ id=" + id + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

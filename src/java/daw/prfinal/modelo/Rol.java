@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -18,26 +22,12 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/******************************************
- * Fichero: Rol.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class Rol
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Entity
-@Table(name = "Rol")
+@Table(name = "rol")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Rol.findAll", query = "SELECT r FROM Rol r"),
@@ -119,6 +109,5 @@ public class Rol implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.Rol[ id=" + id + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

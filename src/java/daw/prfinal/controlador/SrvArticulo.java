@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
  * @author jackpanzer
  */
 public class SrvArticulo extends HttpServlet {
+
     @PersistenceContext(unitName = "OnceMoreTimePU")
     private EntityManager em;
     @Resource
@@ -46,7 +47,7 @@ public class SrvArticulo extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
 
@@ -58,15 +59,38 @@ public class SrvArticulo extends HttpServlet {
         HttpSession sesion;
 
         switch (accion) {
+            case "/SrvArticulo/VerProducto":
+                String prod = request.getParameter("prod");
+
+                //Ya tengo el ID del producto, se busca, se pasa por parámetro y se
+                //devuelve el control a una vista jsp para mostrar los datos
+
+                query = em.createNamedQuery("Articulo.findById", Articulo.class);
+                query.setParameter("id", Long.parseLong(prod));
+
+                try {
+                    Articulo art = (Articulo) query.getSingleResult();
+                    request.setAttribute("producto", art);
+                    
+                    vista = "/verproducto.jsp";
+                    rd = request.getRequestDispatcher(vista);
+                    rd.forward(request, response);
+                } catch (Exception e) {
+                    vista = "/error.jsp";
+                    request.setAttribute("errorMessage", e.getMessage());
+                    rd = request.getRequestDispatcher(vista);
+                    rd.forward(request, response);
+                }
+                break;
             case "/SrvArticulo/Recientes":
                 //Fecha de ayer -> Fecha en formato UTC - 86400000 (milisegundos)
                 Long ayer = (new Date()).getTime() - 86400000;
                 List<Articulo> artRecientes;
                 query = em.createNamedQuery("Articulo.findAll", Articulo.class);
-                try{
+                try {
                     artRecientes = query.getResultList();
                     int recienteActual = 0;
-                    
+
                     if (!artRecientes.isEmpty()) {
                         out.print("<table class=\"striped\">");
                         out.print("<tr>");
@@ -84,7 +108,7 @@ public class SrvArticulo extends HttpServlet {
                                     + "prod="
                                     + actual.getId()
                                     + "\">"
-                                    + actual.getNombre() 
+                                    + actual.getNombre()
                                     + "</a></td>";
                             out.print(recLink);
                             out.print("<td>" + actual.getPrecio() + "</td>");
@@ -94,11 +118,10 @@ public class SrvArticulo extends HttpServlet {
                             out.print("</tr>");
                         }
                         out.print("</table>");
-                    }
-                    else{
+                    } else {
                         out.println("No hay artículos recientes");
                     }
-                }catch(Exception e){
+                } catch (Exception e) {
                     //No hay artículos
                     out.println("No hay artículos recientes");
                 }
@@ -111,37 +134,42 @@ public class SrvArticulo extends HttpServlet {
             case "/SrvArticulo/RegistrarArticulo":
                 sesion = request.getSession();
                 Articulo nuevo = new Articulo();
-                
+
                 nuevo.setNombre(request.getParameter("nombre"));
                 nuevo.setDescripcion(request.getParameter("descripcion").toString());
                 nuevo.setImagenUrl(request.getParameter("imagenurl").toString());
                 nuevo.setPrecio(Double.parseDouble(request.getParameter("precio").toString()));
-                
+
                 Usuario vendedor;
                 query = em.createNamedQuery("Usuario.findById", Usuario.class);
                 query.setParameter("id", Long.parseLong(sesion.getAttribute("userID").toString()));
                 vendedor = (Usuario) query.getSingleResult();
-                
+
                 nuevo.setVendedor(vendedor);
                 nuevo.setFechaPublicacion(new Date());
-                
+
                 Categoria categoria;
                 query = em.createNamedQuery("Categoria.findById", Categoria.class);
                 query.setParameter("id", Long.parseLong(request.getParameter("categoria").toString()));
                 categoria = (Categoria) query.getSingleResult();
-                
+
                 nuevo.setCategoriaId(categoria);
-                try{
-                    
+                try {
+
                     persist(nuevo);
-                    
-                } catch(Exception e) {
-                    
+                    vista = "/exito.jsp";
+                    String successMessage = "Artículo registrado con éxito";
+                    request.setAttribute("successMessage", successMessage);
+
+                } catch (Exception e) {
+                    vista = "/error.jsp";
+                    String errorMessage = e.getMessage();
+                    request.setAttribute("errorMessage", errorMessage);
                 }
-                vista = "/loggedindex.jsp";
+
                 rd = request.getRequestDispatcher(vista);
                 rd.forward(request, response);
-                
+
                 break;
             default:
                 rd = request.getRequestDispatcher(vista);

@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -16,26 +20,12 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/******************************************
- * Fichero: Votacion.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class Votacion
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Entity
-@Table(name = "Votacion")
+@Table(name = "votacion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Votacion.findAll", query = "SELECT v FROM Votacion v"),
@@ -56,10 +46,10 @@ public class Votacion implements Serializable {
     @NotNull
     @Column(name = "puntuacion")
     private int puntuacion;
-    @JoinColumn(name = "Votante", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Votado", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
-    @JoinColumn(name = "Votado", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Votante", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario1;
 
@@ -144,6 +134,5 @@ public class Votacion implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.Votacion[ votacionPK=" + votacionPK + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

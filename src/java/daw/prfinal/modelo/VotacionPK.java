@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -6,27 +10,14 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-/******************************************
- * Fichero: VotacionPK.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class VotacionPK
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Embeddable
 public class VotacionPK implements Serializable {
     @Basic(optional = false)
+    @NotNull
     @Column(name = "Votante")
     private long votante;
     @Basic(optional = false)
@@ -86,6 +77,5 @@ public class VotacionPK implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.VotacionPK[ votante=" + votante + ", votado=" + votado + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

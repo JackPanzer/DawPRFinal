@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package daw.prfinal.modelo;
 
 import java.io.Serializable;
@@ -20,26 +24,12 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/******************************************
- * Fichero: Categoria.java
+/**
  *
- * Autor:             Juan Manuel Pedraza García <jackpanzer@github.com>
- * Fecha de creación: 11-Jan-2014
- * Descripcion:       Descripción
- ******************************************/
-
-/*******************************************
-* package daw.prfinal.modelo;
-* import paquetes; 
-*
-* class Categoria
-* {
-*   public T nombreMetodo(params);
-* }
-*******************************************/
-
+ * @author JuanManuel
+ */
 @Entity
-@Table(name = "Categoria")
+@Table(name = "categoria")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Categoria.findAll", query = "SELECT c FROM Categoria c"),
@@ -57,11 +47,11 @@ public class Categoria implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaId")
-    private List<Articulo> articuloList;
     @JoinColumn(name = "UsuarioId", referencedColumnName = "id")
     @ManyToOne
     private Usuario usuarioId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoriaId")
+    private List<Articulo> articuloList;
 
     public Categoria() {
     }
@@ -91,6 +81,14 @@ public class Categoria implements Serializable {
         this.nombre = nombre;
     }
 
+    public Usuario getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Usuario usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
     @XmlTransient
     public List<Articulo> getArticuloList() {
         return articuloList;
@@ -98,14 +96,6 @@ public class Categoria implements Serializable {
 
     public void setArticuloList(List<Articulo> articuloList) {
         this.articuloList = articuloList;
-    }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
     }
 
     @Override
@@ -132,6 +122,5 @@ public class Categoria implements Serializable {
     public String toString() {
         return "daw.prfinal.modelo.Categoria[ id=" + id + " ]";
     }
-
+    
 }
-/**#END CLASS COMMENT#**/

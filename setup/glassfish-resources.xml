@@ -6,7 +6,7 @@
         <property name="portNumber" value="3306"/>
         <property name="databaseName" value="dawprfinal"/>
         <property name="User" value="dawadmin"/>
-        <property name="Password" value="dawprf"/>
+        <property name="Password" value="prfdaw2013"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/dawprfinal?zeroDateTimeBehavior=convertToNull"/>
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
     </jdbc-connection-pool>
