@@ -35,18 +35,6 @@ public class SrvUsuario extends HttpServlet {
     private EntityManager em;
     @Resource
     private javax.transaction.UserTransaction utx;
-    
-    protected long getUsersAmount()
-    {
-        long ret = 0;
-        
-        TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findAll", Usuario.class);
-        List<Usuario> usuarios = query.getResultList();
-        
-        ret = usuarios.size()+1;
-        
-        return ret;
-    }
 
     /**
      * Processes requests for both HTTP
@@ -136,8 +124,6 @@ public class SrvUsuario extends HttpServlet {
                     MessageDigest md5 = MessageDigest.getInstance("md5");
 
                     Usuario nuevo = new Usuario();
-
-                    nuevo.setId(getUsersAmount());
 
                     nuevo.setNombre(request.getParameter("nombre"));
                     nuevo.setNick(request.getParameter("nick"));

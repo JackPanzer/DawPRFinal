@@ -9,6 +9,7 @@ import daw.prfinal.modelo.Categoria;
 import daw.prfinal.modelo.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -59,6 +60,27 @@ public class SrvArticulo extends HttpServlet {
         HttpSession sesion;
 
         switch (accion) {
+            case "/SrvArticulo/VerArticulos":
+                String metodo = request.getParameter("cat");
+                if(request.getParameter("cat") != null) {
+                    query = em.createNamedQuery("Articulo.findAll", Articulo.class);
+                    
+                    List<Articulo> articulos = query.getResultList();
+                    List<Articulo> filtrados = new ArrayList();
+                    
+                    for(Articulo art : articulos) {
+                        if(art.getCategoriaId().getId() == Long.parseLong(metodo))
+                            filtrados.add(art);
+                    }
+                    
+                    request.setAttribute("listaSize", filtrados.size());
+                    request.setAttribute("articulos", filtrados);
+                    vista = "/tablaproductos.jsp";
+                    rd = request.getRequestDispatcher(vista);
+                    rd.forward(request, response);
+                }
+                
+                break;
             case "/SrvArticulo/VerProducto":
                 String prod = request.getParameter("prod");
 
@@ -84,7 +106,7 @@ public class SrvArticulo extends HttpServlet {
                 break;
             case "/SrvArticulo/Recientes":
                 //Fecha de ayer -> Fecha en formato UTC - 86400000 (milisegundos)
-                Long ayer = (new Date()).getTime() - 86400000;
+                Long ayer = (new Date()).getTime() - 86400000*3;
                 List<Articulo> artRecientes;
                 query = em.createNamedQuery("Articulo.findAll", Articulo.class);
                 try {

@@ -20,8 +20,9 @@
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="../js/kickstart.js"></script>
         <script type="text/javascript" src="../js/registrarproducto.js"></script>
+        <script type="text/javascript" src="../js/favoritos.js"></script>
     </head>
-    <body>
+    <body onload="comprobarLocalStorage(${producto.id})">
         <header>
             <h1>Once More Time!</h1>
         </header>
@@ -46,7 +47,11 @@
                     <h5>Vendedor: <a href="/OnceMoreTime/SrvUsuario/VerPerfil?id=${producto.vendedor.id}">${producto.vendedor.nick}</a></h5>
                     </c:otherwise>
                 </c:choose>
-            <button class="medium green" ><i class="icon-truck"></i> Agregar a favoritos</button>
+
+            <!-- Uso de LocalStorage -->
+            <div id="localStorage">
+                
+            </div>
         </article>
         <aside>
             <%@include file="WEB-INF/jspf/panelControl.jspf" %>
