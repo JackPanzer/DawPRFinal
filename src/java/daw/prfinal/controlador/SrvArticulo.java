@@ -200,7 +200,7 @@ public class SrvArticulo extends HttpServlet {
                 break;
             case "/SrvArticulo/Recientes":
                 //Fecha de ayer -> Fecha en formato UTC - 86400000 (milisegundos)
-                Long ayer = (new Date()).getTime() - 86400000 * 3;
+                long ayer = (new Date()).getTime() - 86400000 * 3;
                 List<Articulo> artRecientes;
                 query = em.createNamedQuery("Articulo.findAll", Articulo.class);
                 try {
@@ -216,22 +216,23 @@ public class SrvArticulo extends HttpServlet {
                         out.print("<th>Categoria</th>");
                         out.print("</tr>");
                         String recLink;
-                        while ((recienteActual < artRecientes.size())
-                                && (artRecientes.get(recienteActual).getFechaPublicacion().getTime() > ayer)) {
-                            out.print("<tr>");
-                            Articulo actual = artRecientes.get(recienteActual);
-                            recLink = "<td><a href=\"/OnceMoreTime/SrvArticulo/VerProducto?"
-                                    + "prod="
-                                    + actual.getId()
-                                    + "\">"
-                                    + actual.getNombre()
-                                    + "</a></td>";
-                            out.print(recLink);
-                            out.print("<td>" + actual.getPrecio() + "</td>");
-                            out.print("<td>" + actual.getFechaPublicacion().toString() + "</td>");
-                            out.print("<td>" + actual.getCategoriaId().getNombre() + "</td>");
+                        while (recienteActual < artRecientes.size()) {
+                            if (artRecientes.get(recienteActual).getFechaPublicacion().getTime() > ayer) {
+                                out.print("<tr>");
+                                Articulo actual = artRecientes.get(recienteActual);
+                                recLink = "<td><a href=\"/OnceMoreTime/SrvArticulo/VerProducto?"
+                                        + "prod="
+                                        + actual.getId()
+                                        + "\">"
+                                        + actual.getNombre()
+                                        + "</a></td>";
+                                out.print(recLink);
+                                out.print("<td>" + actual.getPrecio() + "</td>");
+                                out.print("<td>" + actual.getFechaPublicacion().toString() + "</td>");
+                                out.print("<td>" + actual.getCategoriaId().getNombre() + "</td>");
+                                out.print("</tr>");
+                            }
                             recienteActual++;
-                            out.print("</tr>");
                         }
                         out.print("</table>");
                     } else {
