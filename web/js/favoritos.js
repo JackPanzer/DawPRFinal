@@ -4,54 +4,57 @@
  */
 
 var containerFav;
-//localStorage.favoritos = undefined;
 
-function comprobarLocalStorage(id){
+var favs = eval(localStorage.favs);
+var botonFav;
+var botonUnFav;
+//localStorage.favoritos = undefined;
+function setButtons(id) {
+    botonFav = "<button id=\"boton\" class=\"medium green\" "
+            + "onclick=\"agregarFavorito("
+            + id + ");\">"
+            + "<i class=\"icon-plus-sign\"/>"
+            + " Agregar a favoritos"
+            + "</button>";
+    botonUnFav = "<button id=\"boton\" class=\"medium orange\" "
+            + "onclick=\"eliminarFavorito("
+            + id + ");\">"
+            + "<i class=\"icon-minus-sign\"/>"
+            + " Eliminar de favoritos"
+            + "</button>";
+}
+
+function comprobarLocalStorage(id) {
+    setButtons(id);
     containerFav = document.getElementById("localStorage");
-    if(typeof(Storage)==="undefined"){
-        containerFav.innerHtml="<h5>Su navegador no soporta Local Storage</h5>";
+    if (typeof(Storage) === "undefined") {
+        containerFav.innerHTML = "<h5>Su navegador no soporta Local Storage</h5>";
     } else {
-        if(localStorage.favoritos === undefined 
-                || localStorage.favoritos === ""
-                || localStorage.favoritos.indexOf(id) === -1) {
-            //No hay nada en el almacenamiento local o no está el elemento
-            containerFav.innerHTML = "<button id=\"boton\" class=\"medium green\" "
-                    +"onclick=\"agregarFavorito("
-                    + id+");\">"
-                    +"<i class=\"icon-plus-sign\"/>"
-                    +" Agregar a favoritos"
-                    +"</button>";
+        if (favs instanceof Array && favs.indexOf(id) !== -1) {
+            containerFav.innerHTML = botonUnFav;
         } else {
-            //El elemento está
-            containerFav.innerHTML = "<button id=\"boton\" class=\"medium orange\" "
-                    +"onclick=\"eliminarFavorito("
-                    + id+");\">"
-                    +"<i class=\"icon-minus-sign\"/>"
-                    +" Eliminar de favoritos"
-                    +"</button>";
+            containerFav.innerHTML = botonFav;
         }
     }
 }
 
-function agregarFavorito(id){
-    if(localStorage.favoritos === undefined 
-                || localStorage.favoritos === ""){
-        //No está creada nuestra variable de localStorage, se crea
-        localStorage.favoritos = [id];
-    } else {
-        localStorage.favoritos.push(id);
+function agregarFavorito(id) {
+    if (!(favs instanceof Array)) {
+        favs = new Array();
     }
+
+    favs.push(id);
+    localStorage.favs = JSON.stringify(favs);
     comprobarLocalStorage(id);
 }
 
-function eliminarFavorito(id){
-    if(localStorage.favoritos === undefined 
-                || localStorage.favoritos === ""){
-        //LocalStorage está a null, nada que hacer
-        return;
-    } else {
-        var posicion = localStorage.favoritos.indexOf(id);
-        localStorage.favoritos = localStorage.favoritos.splice(posicion, 1);
+function eliminarFavorito(id) {
+    if (favs instanceof Array) {
+        var indice = favs.indexOf(id);
+        if (indice !== -1) {
+            favs.splice(indice, 1);
+        }
+        localStorage.favs = JSON.stringify(favs);
         comprobarLocalStorage(id);
     }
 }

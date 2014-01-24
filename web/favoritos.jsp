@@ -30,7 +30,6 @@
         <article>
             <h5>Se han recuperado un total de ${listaSize} artículos</h5>
             <%@include file="WEB-INF/jspf/filtro.jspf" %>
-            <div id="productos">
             <c:if test="${listaSize != 0}">
                 <table>
                     <tr>
@@ -42,7 +41,7 @@
                         <th>Categoría</th>
                     </tr>
                     <c:forEach items="${articulos}" var="artActual">
-                        <tr idd2="${artActual.precio}" idd1="${artActual.vendedor.codpostal}" idd3="${artActual.categoriaId.nombre}">
+                        <tr idd2="${artActual.precio}" idd1="${artActual.vendedor.codpostal}">
                             <td><a href="/OnceMoreTime/SrvArticulo/VerProducto?prod=${artActual.id}">${artActual.nombre}</a></td>
                             <td>${artActual.precio}</td>
                             <c:set var="fechaString">${artActual.fechaPublicacion}</c:set>
@@ -66,4 +65,3 @@
         </footer>
     </body>
 </html>
-

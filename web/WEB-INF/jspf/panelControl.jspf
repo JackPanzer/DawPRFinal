@@ -6,8 +6,10 @@
         <div id="userlogged">
             <p>Bienvenido ${sessionScope.nick}</p>
             <ul>
+                <li><a href="/OnceMoreTime">Home</a></li>
                 <li><a href="/OnceMoreTime/SrvUsuario/Logout">Cerrar sesión</a></li>
-                <li><a href="/OnceMoreTime/SrvArticulo/VerArticulosPropios">Ver articulos publicados</a></li>
+                <li><a href="/OnceMoreTime/SrvArticulo/VerArticulos">Ver articulos</a></li>
+                <li><a href="/OnceMoreTime/SrvArticulo/VerFavs">Mis artículos de interés</a></li>
                 <li><a href="/OnceMoreTime/SrvArticulo/FormNuevoArticulo">Publicar artículo</a></li>
             </ul>
         </div>
@@ -16,6 +18,8 @@
         <div id="usernotlogged">
             <p>Bienvenido invitado</p>
             <ul>
+                <li><a href="/OnceMoreTime">Home</a></li>
+                <li><a href="/OnceMoreTime/SrvArticulo/VerFavs">Mis artículos de interés</a></li>
                 <li><a href="/OnceMoreTime/SrvUsuario/Registrar">Registrar</a></li>
                 <li>Acceder</li>
                 <form action="/OnceMoreTime/SrvUsuario/Login" method="POST">

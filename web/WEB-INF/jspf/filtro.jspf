@@ -1,0 +1,22 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" %>
+<div id="filtro">
+    <form>
+        <fieldset>
+            <legend>Filtro</legend>
+            Código postal: <input id="cpostal" type="text" name="cpostal" size="4" /> |
+            Precio: <input id="precio" type="text" name="precio" size="4" /> |
+            <c:if test="${not empty nofilCat && not empty categorias}">
+                Categoría: <select id="cat">
+                    <option value="Todos">Todos</option>
+                    <c:forEach items="${categorias}" var="catActual">
+                        <option value="${catActual.nombre}">${catActual.nombre}</option>
+                    </c:forEach>
+                </select> |
+            </c:if>
+            <input type="button" value="Filtar" onclick="filtrar();"/>
+            <input type="reset" value="Borrar" onclick="restaurar();"/>
+        </fieldset>
+    </form>
+</div>

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpSession;
  * @author jackpanzer
  */
 public class SrvUsuario extends HttpServlet {
+
     @PersistenceContext(unitName = "OnceMoreTimePU")
     private EntityManager em;
     @Resource
@@ -47,10 +49,11 @@ public class SrvUsuario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
 
         PrintWriter out = response.getWriter();
         response.setContentType("text/html;charset=UTF-8");
+
 
         String accion;
         accion = request.getServletPath();
@@ -98,14 +101,13 @@ public class SrvUsuario extends HttpServlet {
                         sesion.setAttribute("usuarioLogged", "true");
                         sesion.setAttribute("userID", user.getId());
                         sesion.setAttribute("nick", user.getNick());
+                        sesion.setAttribute("favoritos", new ArrayList<Long>());
 
-                    }
-                    else
-                    {
+                    } else {
                         vista = "/error.jsp";
                         request.setAttribute("errorMessage", "Usuario no existente o contraseña equivocada");
                     }
-                    
+
 
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(SrvUsuario.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,7 +116,7 @@ public class SrvUsuario extends HttpServlet {
                     vista = "/error.jsp";
                     request.setAttribute("errorMessage", "Usuario no existente o contraseña equivocada");
                 }
-                
+
                 rd = request.getRequestDispatcher(vista);
                 rd.forward(request, response);
                 break;
@@ -157,10 +159,10 @@ public class SrvUsuario extends HttpServlet {
                     }
 
                     persist(nuevo);
-                    
+
                     vista = "/exito.jsp";
                     request.setAttribute("successMessage", "Usuario creado con éxtio");
-                    
+
                 } catch (NoSuchAlgorithmException ex) {
                     vista = "/error.jsp";
                     request.setAttribute("errorMessage", ex.getMessage());
@@ -177,7 +179,7 @@ public class SrvUsuario extends HttpServlet {
                     query.getSingleResult();
                     //Se llega hasta aquí -> error
                     out.print("error");
-                    
+
                 } catch (NoResultException e) {
                     //No se han encontrado coincidencias -> nick disponible
                     out.print("no error");
@@ -192,12 +194,30 @@ public class SrvUsuario extends HttpServlet {
                     query.getSingleResult();
                     //Se llega hasta aquí -> error
                     out.print("error");
-                    
+
                 } catch (NoResultException e) {
                     //No se han encontrado coincidencias -> nick disponible
                     out.print("no error");
                 } catch (Exception e) {
                 }
+                break;
+            case "/SrvUsuario/VerPerfil":
+                int id = Integer.parseInt(request.getParameter("id"));
+
+                TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findById", Usuario.class);
+                query.setParameter("id", id);
+
+                try {
+                    Usuario res = query.getSingleResult();
+                    vista = "/verusuario.jsp";
+                    request.setAttribute("usuario", res);
+                } catch (NoResultException e) {
+                    vista = "/error.jsp";
+                    request.setAttribute("errorMessage", e.getMessage());
+                }
+
+                rd = request.getRequestDispatcher(vista);
+                rd.forward(request, response);
                 break;
             default:
                 vista = "/loggedindex.jsp";
@@ -205,8 +225,8 @@ public class SrvUsuario extends HttpServlet {
                 rd.forward(request, response);
                 break;
         }
-        
-        
+
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

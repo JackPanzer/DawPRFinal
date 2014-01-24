@@ -38,12 +38,13 @@
             </script>
             <h3>${producto.nombre}</h3>
             <p>${producto.descripcion}</p>
-            <h5>${producto.precio} Euros</h5>                
+            <h5>${producto.precio} Euros</h5>
             <c:choose>
                 <c:when test="${producto.vendedor.id == sessionScope.userID}">
 
                 </c:when>
                 <c:otherwise>
+                    <h5>Reputación del vendedor: ${producto.vendedor.reputacion}</h5>
                     <h5>Vendedor: <a href="/OnceMoreTime/SrvUsuario/VerPerfil?id=${producto.vendedor.id}">${producto.vendedor.nick}</a></h5>
                     </c:otherwise>
                 </c:choose>

@@ -77,3 +77,6 @@ footer {
     color: black;
 }
 
+.escondido {
+    display: none;
+}

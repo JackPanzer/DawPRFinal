@@ -58,28 +58,60 @@ public class SrvArticulo extends HttpServlet {
         RequestDispatcher rd;
         TypedQuery query;
         HttpSession sesion;
+        List<Categoria> categorias;
 
         switch (accion) {
+            case "/SrvArticulo/ObtenerFavs":
+                String favs = request.getParameter("favs");
+                break;
+            case "/SrvArticulo/VerFavs":
+                vista = "/favoritos.jsp";
+
+                query = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                categorias = query.getResultList();
+
+                request.setAttribute("nofilCat", "true");
+                request.setAttribute("categorias", categorias);
+
+                rd = request.getRequestDispatcher(vista);
+                rd.forward(request, response);
+                break;
             case "/SrvArticulo/VerArticulos":
                 String metodo = request.getParameter("cat");
-                if(request.getParameter("cat") != null) {
+                if (request.getParameter("cat") != null) {
                     query = em.createNamedQuery("Articulo.findAll", Articulo.class);
-                    
+
                     List<Articulo> articulos = query.getResultList();
                     List<Articulo> filtrados = new ArrayList();
-                    
-                    for(Articulo art : articulos) {
-                        if(art.getCategoriaId().getId() == Long.parseLong(metodo))
+
+                    for (Articulo art : articulos) {
+                        if (art.getCategoriaId().getId() == Long.parseLong(metodo)) {
                             filtrados.add(art);
+                        }
                     }
-                    
+
                     request.setAttribute("listaSize", filtrados.size());
                     request.setAttribute("articulos", filtrados);
                     vista = "/tablaproductos.jsp";
                     rd = request.getRequestDispatcher(vista);
                     rd.forward(request, response);
+                } else {
+                    query = em.createNamedQuery("Articulo.findAll", Articulo.class);
+                    List<Articulo> articulos = query.getResultList();
+
+                    query = em.createNamedQuery("Categoria.findAll", Categoria.class);
+                    categorias = query.getResultList();
+
+                    request.setAttribute("nofilCat", "true");
+                    request.setAttribute("categorias", categorias);
+
+                    request.setAttribute("listaSize", articulos.size());
+                    request.setAttribute("articulos", articulos);
+                    vista = "/tablaproductos.jsp";
+                    rd = request.getRequestDispatcher(vista);
+                    rd.forward(request, response);
                 }
-                
+
                 break;
             case "/SrvArticulo/VerProducto":
                 String prod = request.getParameter("prod");
@@ -93,7 +125,7 @@ public class SrvArticulo extends HttpServlet {
                 try {
                     Articulo art = (Articulo) query.getSingleResult();
                     request.setAttribute("producto", art);
-                    
+
                     vista = "/verproducto.jsp";
                     rd = request.getRequestDispatcher(vista);
                     rd.forward(request, response);
@@ -106,7 +138,7 @@ public class SrvArticulo extends HttpServlet {
                 break;
             case "/SrvArticulo/Recientes":
                 //Fecha de ayer -> Fecha en formato UTC - 86400000 (milisegundos)
-                Long ayer = (new Date()).getTime() - 86400000*3;
+                Long ayer = (new Date()).getTime() - 86400000 * 3;
                 List<Articulo> artRecientes;
                 query = em.createNamedQuery("Articulo.findAll", Articulo.class);
                 try {

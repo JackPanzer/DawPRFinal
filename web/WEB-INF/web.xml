@@ -44,6 +44,7 @@
         <servlet-name>SrvArticulo</servlet-name>
         <url-pattern>/SrvArticulo</url-pattern>
         <url-pattern>/SrvArticulo/VerFichaArticulo</url-pattern>
+        <url-pattern>/SrvArticulo/VerFavs</url-pattern>
         <url-pattern>/SrvArticulo/Recientes</url-pattern>
         <url-pattern>/SrvArticulo/VerArticulos</url-pattern>
         <url-pattern>/SrvArticulo/VerArticulosCategoria</url-pattern>
@@ -66,6 +67,7 @@
     <servlet-mapping>
         <servlet-name>SrvVotacion</servlet-name>
         <url-pattern>/SrvVotacion</url-pattern>
+        <url-pattern>/SrvVotacion/VotarUsuario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
