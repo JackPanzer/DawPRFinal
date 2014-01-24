@@ -53,6 +53,7 @@
         <url-pattern>/SrvArticulo/FormNuevoArticulo</url-pattern>
         <url-pattern>/SrvArticulo/RegistrarArticulo</url-pattern>
         <url-pattern>/SrvArticulo/VerProducto</url-pattern>
+        <url-pattern>/SrvArticulo/ObtenerFavs</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SrvRol</servlet-name>

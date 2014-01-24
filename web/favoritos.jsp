@@ -30,29 +30,7 @@
         <article>
             <h5>Se han recuperado un total de ${listaSize} artículos</h5>
             <%@include file="WEB-INF/jspf/filtro.jspf" %>
-            <c:if test="${listaSize != 0}">
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Fecha de publicación</th>
-                        <th>Vendedor</th>
-                        <th>Código postal</th>
-                        <th>Categoría</th>
-                    </tr>
-                    <c:forEach items="${articulos}" var="artActual">
-                        <tr idd2="${artActual.precio}" idd1="${artActual.vendedor.codpostal}">
-                            <td><a href="/OnceMoreTime/SrvArticulo/VerProducto?prod=${artActual.id}">${artActual.nombre}</a></td>
-                            <td>${artActual.precio}</td>
-                            <c:set var="fechaString">${artActual.fechaPublicacion}</c:set>
-                            <td>${fechaString}</td>
-                            <td><a href="/OnceMoreTime/SrvUsuario/VerPerfil?id=${artActual.vendedor.id}">${artActual.vendedor.nick}</a></td>
-                            <td>${artActual.vendedor.codpostal}</td>
-                            <td>${artActual.categoriaId.nombre}</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:if>
+            <div id="articulos">
             </div>
         </article>
         <aside>
@@ -63,5 +41,6 @@
             Práctica final de Desarrollo de Aplicaciones Web - 
             Universidad de Huelva
         </footer>
+        <script type="text/javascript">init_xhr();</script>
     </body>
 </html>

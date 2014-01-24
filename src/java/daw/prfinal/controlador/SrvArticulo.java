@@ -62,7 +62,69 @@ public class SrvArticulo extends HttpServlet {
 
         switch (accion) {
             case "/SrvArticulo/ObtenerFavs":
-                String favs = request.getParameter("favs");
+                try {
+                    String favs = request.getParameter("favs");
+                    favs = favs.replace("[", "");
+                    favs = favs.replace("]", "");
+                    String[] favStr = favs.split(",");
+
+                    List<Long> ids = new ArrayList<>();
+
+                    for (String str : favStr) {
+                        ids.add(Long.parseLong(str));
+                    }
+
+                    query = em.createNamedQuery("Articulo.findAll", Articulo.class);
+                    List<Articulo> recuperados = query.getResultList();
+                    List<Articulo> favoritos = new ArrayList<>();
+
+                    for (Articulo temp : recuperados) {
+                        if (ids.contains(temp.getId())) {
+                            favoritos.add(temp);
+                        }
+                    }
+
+                    if (!favoritos.isEmpty()) {
+                        out.print("<table class=\"striped\">");
+                        out.print("<tr>");
+                        out.print("<th>Nombre</th>");
+                        out.print("<th>Precio</th>");
+                        out.print("<th>Fecha de publicación</th>");
+                        out.print("<th>Vendedor</th>");
+                        out.print("<th>Código postal</th>");
+                        out.print("<th>Categoría</th>");
+                        out.print("</tr>");
+
+                        for (Articulo temp : favoritos) {
+                            out.println("<tr idd1=\"" + temp.getVendedor().getCodpostal() + "\" "
+                                    + "idd2=\"" + temp.getPrecio() + "\" "
+                                    + "idd3=\"" + temp.getCategoriaId().getNombre() + "\">");
+
+                            out.println("<td><a href=\"/OnceMoreTime/SrvArticulo/VerProducto?prod="
+                                    + temp.getId()
+                                    + "\">"
+                                    + temp.getNombre()
+                                    + "</a></td>");
+                            out.println("<td>" + temp.getPrecio() + "</td>");
+                            out.println("<td>" + temp.getFechaPublicacion().toString() + "</td>");
+                            out.println("<td><a href=\"/OnceMoreTime/SrvUsuario/VerPerfil?id="
+                                    + temp.getVendedor().getId()
+                                    + "\">"
+                                    + temp.getVendedor().getNick()
+                                    + "</a></td>");
+                            out.println("<td>" + temp.getVendedor().getCodpostal() + "</td>");
+                            out.println("<td>" + temp.getCategoriaId().getNombre() + "</td>");
+
+                            out.println("</tr>");
+                        }
+
+                        out.println("</table>");
+                    } else {
+                        out.println("No hay artículos favoritos");
+                    }
+                } catch (Exception e) {
+                    out.println(e.getMessage());
+                }
                 break;
             case "/SrvArticulo/VerFavs":
                 vista = "/favoritos.jsp";
