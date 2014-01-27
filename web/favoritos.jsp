@@ -22,13 +22,15 @@
     </head>
     <body>
         <header>
-            <h1>Once More Time!</h1>
+            Once More Time!
+            <br/>
+            <br/>
+            <h8>Mis artículos de interés</h8>
         </header>
         <nav>
             <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>
         </nav>
         <article>
-            <h5>Se han recuperado un total de ${listaSize} artículos</h5>
             <%@include file="WEB-INF/jspf/filtro.jspf" %>
             <div id="articulos">
             </div>

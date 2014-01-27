@@ -24,7 +24,10 @@
     </head>
     <body onload="comprobarLocalStorage(${producto.id})">
         <header>
-            <h1>Once More Time!</h1>
+            Once More Time!
+            <br/>
+            <br/>
+            <h8>Viendo artículo</h8>
         </header>
         <nav>
             <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>

@@ -1,9 +1,10 @@
 
 <%@ page pageEncoding="UTF-8" %>
 <header>
-    <h1>Once More Time!</h1>
+    Once More Time!
     <br/>
-    <h2>Página principal</h2>
+    <br/>
+    <h8>Página principal</h8>
 </header>
 <nav>
     <%@include file="includeCategorias.jspf" %>

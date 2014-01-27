@@ -47,9 +47,6 @@
         <url-pattern>/SrvArticulo/VerFavs</url-pattern>
         <url-pattern>/SrvArticulo/Recientes</url-pattern>
         <url-pattern>/SrvArticulo/VerArticulos</url-pattern>
-        <url-pattern>/SrvArticulo/VerArticulosCategoria</url-pattern>
-        <url-pattern>/SrvArticulo/VerArticulosPropios</url-pattern>
-        <url-pattern>/SrvArticulo/PublicarArticulo</url-pattern>
         <url-pattern>/SrvArticulo/FormNuevoArticulo</url-pattern>
         <url-pattern>/SrvArticulo/RegistrarArticulo</url-pattern>
         <url-pattern>/SrvArticulo/VerProducto</url-pattern>

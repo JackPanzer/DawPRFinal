@@ -25,9 +25,10 @@
     </head>
     <body>
         <header>
-            <h1>Once More Time!</h1>
+            Once More Time!
             <br/>
-            <h2>Página principal</h2>
+            <br/>
+            <h8>Registrar usuario</h8>
         </header>
         <nav>
             <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>

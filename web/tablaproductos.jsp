@@ -22,7 +22,10 @@
     </head>
     <body>
         <header>
-            <h1>Once More Time!</h1>
+            Once More Time!
+            <br/>
+            <br/>
+            <h8>Artículos</h8>
         </header>
         <nav>
             <%@include file="WEB-INF/jspf/includeCategorias.jspf" %>
@@ -32,7 +35,7 @@
             <%@include file="WEB-INF/jspf/filtro.jspf" %>
             <div id="productos">
             <c:if test="${listaSize != 0}">
-                <table>
+                <table class="striped">
                     <tr>
                         <th>Nombre</th>
                         <th>Precio</th>

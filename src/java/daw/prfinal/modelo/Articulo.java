@@ -71,15 +71,15 @@ public class Articulo implements Serializable {
     @Column(name = "fecha_compra")
     @Temporal(TemporalType.DATE)
     private Date fechaCompra;
-    @JoinColumn(name = "CategoriaId", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Categoria categoriaId;
     @JoinColumn(name = "Vendedor", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario vendedor;
     @JoinColumn(name = "Comprador", referencedColumnName = "id")
     @ManyToOne
     private Usuario comprador;
+    @JoinColumn(name = "CategoriaId", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Categoria categoriaId;
 
     public Articulo() {
     }
@@ -152,14 +152,6 @@ public class Articulo implements Serializable {
         this.fechaCompra = fechaCompra;
     }
 
-    public Categoria getCategoriaId() {
-        return categoriaId;
-    }
-
-    public void setCategoriaId(Categoria categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
     public Usuario getVendedor() {
         return vendedor;
     }
@@ -174,6 +166,14 @@ public class Articulo implements Serializable {
 
     public void setComprador(Usuario comprador) {
         this.comprador = comprador;
+    }
+
+    public Categoria getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(Categoria categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     @Override

@@ -46,10 +46,10 @@ public class Votacion implements Serializable {
     @NotNull
     @Column(name = "puntuacion")
     private int puntuacion;
-    @JoinColumn(name = "Votado", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Votante", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario;
-    @JoinColumn(name = "Votante", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "Votado", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Usuario usuario1;
 
